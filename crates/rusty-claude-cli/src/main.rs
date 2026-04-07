@@ -58,7 +58,7 @@ use tools::{
     execute_tool, mvp_tool_specs, GlobalToolRegistry, RuntimeToolDefinition, ToolSearchOutput,
 };
 
-const DEFAULT_MODEL: &str = "glm-5.1";
+const DEFAULT_MODEL: &str = "GLM-5.1";
 fn max_tokens_for_model(model: &str) -> u32 {
     if model.contains("opus") {
         32_000

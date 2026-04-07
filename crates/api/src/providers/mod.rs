@@ -165,7 +165,7 @@ pub fn resolve_model_alias(model: &str) -> String {
                 },
                 ProviderKind::OpenAi => trimmed,
                 ProviderKind::Glm => match *alias {
-                    "glm" | "glm-5.1" => "glm-5.1",
+                    "glm" | "glm-5.1" => "GLM-5.1",
                     _ => trimmed,
                 },
             })
@@ -192,7 +192,7 @@ pub fn metadata_for_model(model: &str) -> Option<ProviderMetadata> {
             default_base_url: openai_compat::DEFAULT_XAI_BASE_URL,
         });
     }
-    if canonical.starts_with("glm") {
+    if canonical.to_ascii_lowercase().starts_with("glm") {
         return Some(ProviderMetadata {
             provider: ProviderKind::Glm,
             auth_env: "GLM_API_KEY",
@@ -262,9 +262,9 @@ pub fn model_token_limit(model: &str) -> Option<ModelTokenLimit> {
             max_output_tokens: 64_000,
             context_window_tokens: 131_072,
         }),
-        "glm-5.1" => Some(ModelTokenLimit {
-            max_output_tokens: 16_384,
-            context_window_tokens: 128_000,
+        "GLM-5.1" => Some(ModelTokenLimit {
+            max_output_tokens: 131_072,
+            context_window_tokens: 204_800,
         }),
         _ => None,
     }
