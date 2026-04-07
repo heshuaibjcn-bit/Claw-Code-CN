@@ -6287,11 +6287,16 @@ impl AnthropicRuntimeClient {
         tool_registry: GlobalToolRegistry,
         progress_reporter: Option<InternalPromptProgressReporter>,
     ) -> Result<Self, Box<dyn std::error::Error>> {
+        let anthropic_auth = if detect_provider_kind(&model) == ProviderKind::Anthropic {
+            Some(resolve_cli_auth_source()?)
+        } else {
+            None
+        };
         Ok(Self {
             runtime: tokio::runtime::Runtime::new()?,
             client: ProviderClient::from_model_with_anthropic_auth(
                 &model,
-                Some(resolve_cli_auth_source()?),
+                anthropic_auth,
             )?
             .with_prompt_cache(PromptCache::new(session_id)),
             session_id: session_id.to_string(),
